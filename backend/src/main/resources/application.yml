@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/productdb
+    username: product_user
+    password: product_pass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: never
+app:
+  jwt:
+    secret: "0123456789ABCDEF0123456789ABCDEF"
+    expiration-ms: 7200000
+logging:
+  level:
+    org.springframework.security: INFO
