@@ -1,0 +1,76 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Manage products</h2>
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+  <form (ngSubmit)="save()" class="row g-3 mb-4">
+    <div class="col-md-4">
+      <label class="form-label">Name</label>
+      <input class="form-control" name="name" [(ngModel)]="draft.name" required />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Description</label>
+      <textarea
+        class="form-control"
+        name="description"
+        [(ngModel)]="draft.description"
+      ></textarea>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Price</label>
+      <input
+        class="form-control"
+        type="number"
+        min="0"
+        name="price"
+        [(ngModel)]="draft.price"
+        required
+      />
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Stock</label>
+      <input
+        class="form-control"
+        type="number"
+        min="0"
+        name="stockQuantity"
+        [(ngModel)]="draft.stockQuantity"
+        required
+      />
+    </div>
+    <div class="col-12 d-flex gap-2">
+      <button class="btn btn-success" type="submit">
+        {{ editingId ? 'Update' : 'Create' }} product
+      </button>
+      <button class="btn btn-outline-secondary" type="button" (click)="cancel()" *ngIf="editingId">
+        Cancel
+      </button>
+    </div>
+  </form>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products()">
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.price | currency }}</td>
+        <td>{{ product.stockQuantity }}</td>
+        <td class="text-end">
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="edit(product)">
+            Edit
+          </button>
+          <button class="btn btn-sm btn-outline-danger" (click)="remove(product)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

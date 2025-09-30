@@ -1,0 +1,50 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title mb-4">Create an account</h2>
+          <form (ngSubmit)="submit()" #form="ngForm">
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <input
+                name="username"
+                class="form-control"
+                required
+                [(ngModel)]="credentials.username"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input
+                name="password"
+                type="password"
+                class="form-control"
+                required
+                [(ngModel)]="credentials.password"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Role</label>
+              <select
+                name="role"
+                class="form-select"
+                [(ngModel)]="credentials.role"
+              >
+                <option value="USER">User</option>
+                <option value="ADMIN">Admin</option>
+              </select>
+            </div>
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary" type="submit" [disabled]="form.invalid">
+                Register
+              </button>
+              <a routerLink="/login" class="text-center">Already have an account?</a>
+            </div>
+          </form>
+          <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
