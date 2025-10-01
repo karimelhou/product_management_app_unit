@@ -1,6 +1,7 @@
 package com.example.productmanagementapp.user;
 
 import com.example.productmanagementapp.order.Order;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class User {
     private Role role = Role.USER;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 
     public User() {

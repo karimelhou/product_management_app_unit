@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router'; // Import Router
 import { AuthService, Credentials } from '../../services/auth.service';
 
 @Component({
@@ -11,20 +11,24 @@ import { AuthService, Credentials } from '../../services/auth.service';
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
-  credentials: Credentials = {
-    username: '',
-    password: '',
-    role: 'USER',
-  };
+  credentials: Credentials = { username: '', password: '', role: 'USER' };
   error: string | null = null;
+  // Signal to track form submission state
+  submitting = signal(false);
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   submit(): void {
     this.error = null;
+    this.submitting.set(true);
     this.authService.register(this.credentials).subscribe({
-      next: () => window.location.assign('/products'),
-      error: (err) => (this.error = err.error?.message ?? 'Registration failed'),
+      // Use router for smooth SPA navigation
+      next: () => this.router.navigate(['/products']),
+      error: (err) => {
+        this.error = err.error?.message ?? 'Registration failed';
+        this.submitting.set(false);
+      },
+      complete: () => this.submitting.set(false),
     });
   }
 }

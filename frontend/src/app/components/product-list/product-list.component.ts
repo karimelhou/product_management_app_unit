@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
 export class ProductListComponent implements OnInit {
   products = signal<Product[]>([]);
   search = '';
-  loading = signal(false);
+  loading = signal(true); // Set initial loading state to true
   error = signal<string | null>(null);
 
   isAdmin = computed(() => this.authService.isAdmin());
@@ -32,14 +32,18 @@ export class ProductListComponent implements OnInit {
   loadProducts(): void {
     this.loading.set(true);
     this.error.set(null);
-    this.productService.list(this.search).subscribe({
-      next: (products) => this.products.set(products),
-      error: () => this.error.set('Unable to load products'),
-      complete: () => this.loading.set(false),
-    });
+    // Simulate a small delay for demoing the skeleton loader
+    setTimeout(() => {
+      this.productService.list(this.search).subscribe({
+        next: (products) => this.products.set(products),
+        error: () => this.error.set('Unable to load products'),
+        complete: () => this.loading.set(false),
+      });
+    }, 500);
   }
 
   addToCart(product: Product): void {
     this.cartService.addItem(product);
+    // You could add toast notifications here for better feedback
   }
 }

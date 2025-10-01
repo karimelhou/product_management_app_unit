@@ -1,76 +1,74 @@
-<div class="container mt-4">
-  <h2 class="mb-3">Manage products</h2>
+<div>
+  <h1 class="mb-4">Product Management</h1>
   <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
-  <form (ngSubmit)="save()" class="row g-3 mb-4">
-    <div class="col-md-4">
-      <label class="form-label">Name</label>
-      <input class="form-control" name="name" [(ngModel)]="draft.name" required />
-    </div>
-    <div class="col-md-4">
-      <label class="form-label">Description</label>
-      <textarea
-        class="form-control"
-        name="description"
-        [(ngModel)]="draft.description"
-      ></textarea>
-    </div>
-    <div class="col-md-2">
-      <label class="form-label">Price</label>
-      <input
-        class="form-control"
-        type="number"
-        min="0"
-        name="price"
-        [(ngModel)]="draft.price"
-        required
-      />
-    </div>
-    <div class="col-md-2">
-      <label class="form-label">Stock</label>
-      <input
-        class="form-control"
-        type="number"
-        min="0"
-        name="stockQuantity"
-        [(ngModel)]="draft.stockQuantity"
-        required
-      />
-    </div>
-    <div class="col-12 d-flex gap-2">
-      <button class="btn btn-success" type="submit">
-        {{ editingId ? 'Update' : 'Create' }} product
-      </button>
-      <button class="btn btn-outline-secondary" type="button" (click)="cancel()" *ngIf="editingId">
-        Cancel
-      </button>
-    </div>
-  </form>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Stock</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of products()">
-        <td>{{ product.name }}</td>
-        <td>{{ product.description }}</td>
-        <td>{{ product.price | currency }}</td>
-        <td>{{ product.stockQuantity }}</td>
-        <td class="text-end">
-          <button class="btn btn-sm btn-outline-primary me-2" (click)="edit(product)">
-            Edit
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">{{ editingId ? 'Update Product' : 'Create New Product' }}</h5>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="save()" class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Name</label>
+          <input class="form-control" name="name" [(ngModel)]="draft.name" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Description</label>
+          <input class="form-control" name="description" [(ngModel)]="draft.description" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Price</label>
+          <input class="form-control" type="number" min="0" name="price" [(ngModel)]="draft.price" required />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Stock</label>
+          <input class="form-control" type="number" min="0" name="stockQuantity" [(ngModel)]="draft.stockQuantity" required />
+        </div>
+        <div class="col-12 d-flex gap-2 mt-4">
+          <button class="btn btn-success" type="submit">
+            <i class="bi me-1" [class]="editingId ? 'bi-check-circle-fill' : 'bi-plus-circle-fill'"></i>
+            {{ editingId ? 'Update' : 'Create' }}
           </button>
-          <button class="btn btn-sm btn-outline-danger" (click)="remove(product)">
-            Delete
+          <button class="btn btn-outline-secondary" type="button" (click)="cancel()" *ngIf="editingId">
+            Cancel
           </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">Product List</h5>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products()">
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.price | currency }}</td>
+            <td>{{ product.stockQuantity }}</td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="edit(product)">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="remove(product)">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

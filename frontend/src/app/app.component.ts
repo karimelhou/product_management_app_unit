@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router'; // Import Router
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
 
@@ -11,10 +11,12 @@ import { AuthService } from './services/auth.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  constructor(public auth: AuthService) {}
+  // Inject the Angular Router
+  constructor(public auth: AuthService, private router: Router) {}
 
   logout(): void {
     this.auth.logout();
-    window.location.assign('/login');
+    // Use the router for smooth navigation without a page reload
+    this.router.navigate(['/login']);
   }
 }

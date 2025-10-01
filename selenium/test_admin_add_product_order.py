@@ -1,4 +1,4 @@
-"""Selenium test covering admin adding a product and placing an order."""
+00000"""Selenium test covering admin adding a product and placing an order."""
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time

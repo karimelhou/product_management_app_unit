@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router'; // Import Router
 import { AuthService, Credentials } from '../../services/auth.service';
 
 @Component({
@@ -11,19 +11,25 @@ import { AuthService, Credentials } from '../../services/auth.service';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  credentials: Credentials = {
-    username: '',
-    password: '',
-  };
+  credentials: Credentials = { username: '', password: '' };
   error: string | null = null;
+  // Signal to track form submission state for spinner
+  submitting = signal(false);
 
-  constructor(private authService: AuthService) {}
+  // Inject Router for navigation
+  constructor(private authService: AuthService, private router: Router) {}
 
   submit(): void {
     this.error = null;
+    this.submitting.set(true);
     this.authService.login(this.credentials).subscribe({
-      next: () => window.location.assign('/products'),
-      error: () => (this.error = 'Invalid username or password'),
+      // Use router.navigate for SPA navigation
+      next: () => this.router.navigate(['/products']),
+      error: () => {
+        this.error = 'Invalid username or password';
+        this.submitting.set(false);
+      },
+      complete: () => this.submitting.set(false),
     });
   }
 }

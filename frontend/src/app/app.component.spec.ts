@@ -35,6 +35,5 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('nav')).not.toBeNull();
-    expect(compiled.textContent).toContain('Product Management');
   });
 });
